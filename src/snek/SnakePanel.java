@@ -1,5 +1,6 @@
 package snek;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -24,13 +25,13 @@ public class SnakePanel extends JPanel implements ActionListener, KeyListener {
 	Snake snake;
 	
 	JFrame frame;
-	
+		
 	SnakePanel(int width, int height) {
 		
 		this.width = width;
 		this.height = height;
 		
-		timer = new Timer(750, this);
+		timer = new Timer(100, this);
 		
 		snake = new Snake();
 		
@@ -59,7 +60,11 @@ public class SnakePanel extends JPanel implements ActionListener, KeyListener {
 	
 	@Override
 	public void paintComponent(Graphics g) {
+		
 		snake.draw(g);
+		g.setColor(Color.RED);
+		g.fillOval(snake.food.x, snake.food.y, 50, 50);
+		
 	}
 	
 	@Override
@@ -89,7 +94,7 @@ public class SnakePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			snake.segments.add(new SnakeSegment(-150, -150));
+			snake.segments.add(new SnakeSegment(snake.head.location.x, snake.head.location.y));
 		}
 				
 	}
