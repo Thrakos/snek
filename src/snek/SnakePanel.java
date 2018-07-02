@@ -62,7 +62,7 @@ public class SnakePanel extends JPanel implements ActionListener, KeyListener {
 	public void paintComponent(Graphics g) {
 		
 		snake.draw(g);
-		g.setColor(Color.RED);
+		g.setColor(new Color(snake.fr, snake.fg, snake.fb));
 		g.fillOval(snake.food.x, snake.food.y, 50, 50);
 		
 	}
@@ -91,10 +91,6 @@ public class SnakePanel extends JPanel implements ActionListener, KeyListener {
 			snake.direction = 2;
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT && snake.direction != 1) {
 			snake.direction = 3;
-		}
-		
-		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			snake.segments.add(new SnakeSegment(snake.head.location.x, snake.head.location.y));
 		}
 				
 	}

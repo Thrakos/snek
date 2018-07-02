@@ -9,14 +9,25 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Snake {
-
+	
+	int red = 255;
+	int green = 0;
+	int blue = 0;
+	int color = 1;
+	
+	int fr = 0;
+	int fg = 0;
+	int fb = 0;
+	
 	ArrayList<SnakeSegment> segments = new ArrayList<SnakeSegment>();
-	SnakeSegment head = new SnakeSegment(100, 150);
+	SnakeSegment head = new SnakeSegment(100, 150, red, green, blue, true);
 
 	int direction;
 
 	Random ran1 = new Random();
 	Random ran2 = new Random();
+	
+	Random colRan = new Random();
 
 	Location food = new Location(300, 300);
 
@@ -54,7 +65,11 @@ public class Snake {
 		food.x = one;
 		food.y = two;
 
-		segments.add(new SnakeSegment(head.location.x, head.location.y));
+		segments.add(new SnakeSegment(head.location.x, head.location.y, fr, fg, fb, false));
+		
+		fr = colRan.nextInt(256);
+		fg = colRan.nextInt(256);
+		fb = colRan.nextInt(256);
 
 	}
 
@@ -82,6 +97,9 @@ public class Snake {
 				direction = 2;
 				head.location = new Location(100, 150);
 				JOptionPane.showMessageDialog(null, "You died. Haha.");
+				red = 255;
+				green = 0;
+				blue = 0;
 			}
 		}
 		
@@ -92,6 +110,9 @@ public class Snake {
 			direction = 2;
 			head.location = new Location(100, 150);
 			JOptionPane.showMessageDialog(null, "You died. Haha.");
+			red = 255;
+			green = 0;
+			blue = 0;
 		}
 		
 		if (head.location.y > 750 || head.location.y < 0) {
@@ -101,18 +122,67 @@ public class Snake {
 			direction = 2;
 			head.location = new Location(100, 150);
 			JOptionPane.showMessageDialog(null, "You died. Haha.");
+			red = 255;
+			green = 0;
+			blue = 0;
 		}
 
 		if (head.location.x == food.x && head.location.y == food.y) {
 			feed();
 		}
 
+		if (red == 255 && green == 0 && blue == 0) {
+			color = 1;
+		} else if (red == 255 && green == 255 && blue == 0) {
+			color = 2;
+		} else if (red == 0 && green == 255 && blue == 0) {
+			color = 3;
+		} else if (red == 0 && green == 255 && blue == 255) {
+			color = 4;
+		} else if (red == 0 && green == 0 && blue == 255) {
+			color = 5;
+		} else if (red == 255 && green == 0 && blue == 255) {
+			color = 6;
+		}
+		
+		if (color == 1) {
+			green += 5;
+			if (green > 255) {
+				green = 255;
+			}
+		} else if (color == 2) {
+			red -= 5;
+			if (red < 0) {
+				red = 0;
+			}
+		} else if (color == 3) {
+			blue += 5;
+			if (blue > 255) {
+				blue = 255;
+			}
+		} else if (color == 4) {
+			green -= 5;
+			if (green < 0) {
+				green = 0;
+			}
+		} else if (color == 5) {
+			red += 5;
+			if (red > 255) {
+				red = 255;
+			}
+		} else if (color == 6) {
+			blue -= 5;
+			if (blue < 0) {
+				blue = 0;
+			}
+		}
+		
 	}
 
 	public void draw(Graphics g) {
 
 		for (int i = 0; i < segments.size(); i++) {
-			segments.get(i).draw(g);
+			segments.get(i).draw(g, red, green, blue);
 		}
 
 	}
